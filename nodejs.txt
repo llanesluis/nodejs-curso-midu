@@ -1,0 +1,12 @@
+"globalThis" es una variable global
+>es el objeto global "window" el navegador
+>es el objeto global "global" en node
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SISTEMA DE MODULOS EN JAVASCRIPT
+//CommonJS
+const variable = require('path')       //Modulos
+const variable = require('node:___')   //Modulos nativos de node ('fs', 'os', etc)
+
+//EcmaScript Modules
+import {} from 'path' 
