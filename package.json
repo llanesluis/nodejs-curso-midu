@@ -1,0 +1,32 @@
+{
+  "name": "nodejs-curso-midu",
+  "version": "1.0.0",
+  "description": "Curso de node js de Midudev",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/llanesluis/nodejs-curso-midu.git"
+  },
+  "keywords": [
+    "curso",
+    "node",
+    "nodejs",
+    "midudev",
+    "express"
+  ],
+  "author": "Luis Fernando Llanes Bojorquez - luisllaboj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/llanesluis/nodejs-curso-midu/issues"
+  },
+  "homepage": "https://github.com/llanesluis/nodejs-curso-midu#readme",
+  "dependencies": {
+    "picocolors": "1.0.0"
+  },
+  "devDependencies": {
+    "standard": "17.1.0"
+  }
+}
