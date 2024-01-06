@@ -1,8 +1,19 @@
 ###Recuperar info del pokemon "Ditto"
 GET http://localhost:1234/pokemon/ditto
 
+###Recuperar info del pokemon por ID
+GET http://localhost:1234/pokemon/35
+
 ###Ir a la pagina About
 GET http://localhost:1234/about
+
+###Ir a la pagina Apple
+GET http://localhost:1234/apple
+###Ir a la pagina Apple Images
+GET http://localhost:1234/apple/images
+###Ir a la pagina Apple Images News
+GET http://localhost:1234/apple/images/news
+
 
 
 ###Para crear un pokemon
