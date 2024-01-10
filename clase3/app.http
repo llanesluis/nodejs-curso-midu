@@ -1,0 +1,33 @@
+GET http://localhost:1234/
+
+### Para obtener las peliculas
+GET http://localhost:1234/movies
+
+### Para obtener una pelicula en especifico
+GET http://localhost:1234/movies/dd5c16ac-e7ad-4785-856d-f164d1b3c6c1
+
+### Para obtener peliculas basadas en un genero
+GET http://localhost:1234/movies?genre=anime
+
+### Crear una pelicula
+POST http://localhost:1234/movies
+Content-Type: application/json
+
+{
+  "sql": "SELECT * FROM users",
+  "title": "Naruto",
+  "year": 2000,
+  "director": "Paquita la del barrio",
+  "duration": 1000,
+  "poster": "https://m.media-amazon.com/images/I/81dwTCF6+XL.jpg",
+  "genre": ["Anime"],
+  "rate": 10
+}
+
+### Actualizar una pelicula
+PATCH http://localhost:1234/movies/77be2170-6257-41fd-9c24-7732e5362f5c
+Content-Type: application/json
+
+{
+  "year": 1950
+}

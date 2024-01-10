@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Prueba de la api</title>
+    <script type="module"></script>
+    <style>
+      main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      article {
+        background-color: #eee;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        align-items: center;
+        border-radius: 10px;
+        box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+
+        padding: 5px;
+        overflow: hidden;
+        width: 280px;
+        height: 450px;
+      }
+
+      h2 {
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      img {
+        height: 400px;
+        width: 250px;
+        object-fit: cover;
+      }
+    </style>
+    <script>
+      fetch('http://localhost:1234/movies')
+        .then((response) => response.json())
+        .then((movies) => {
+          const html = movies
+            .map((movie) => {
+              return `
+              <article data-id=${movie.id} >
+                <h2>${movie.title}</h2>
+                <img src=${movie.poster} alt=${movie.title}>
+
+                <button>Delete</button>
+              </article>
+            `
+            })
+            .join('')
+
+          // Para servir una pagina web estatica en una url --- npx servor <<carpeta>>
+
+          document.querySelector('main').innerHTML = html
+
+          document.addEventListener('click', (e) => {
+            if (e.target.matches('button')) {
+              const article = e.target.closest('article')
+              const id = article.dataset.id
+
+              fetch(`http://localhost:1234/movies/${id}`, { method: 'DELETE' }).then(
+                (res) => {
+                  if (res.ok) {
+                    article.remove()
+                  }
+                }
+              )
+            }
+          })
+        })
+    </script>
+  </head>
+  <body>
+    <main></main>
+  </body>
+</html>
