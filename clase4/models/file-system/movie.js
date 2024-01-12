@@ -1,5 +1,5 @@
-import { readJSON } from '../lib/utils.js'
-import { validateMovie } from '../lib/validators/movies.js'
+import { readJSON } from '../../lib/utils.js'
+import { validateMovie } from '../../lib/validators/movies.js'
 
 const movies = readJSON('../movies.json')
 /* IMPORTAR JSON
@@ -20,7 +20,7 @@ const movies = readJSON('../movies.json')
 // - Verificar si hay inputs que ya existen (el controlador puede mandar un input valido, pero que ya existeen la BBDD)
 
 export class MovieModel {
-  static async getAllMovies ({ genre }) {
+  static async getAllMovies({ genre }) {
     if (genre) {
       const filteredMovies = movies.filter((movie) =>
         movie.genre.some((item) => item.toLowerCase() === genre.toLowerCase())
@@ -31,13 +31,13 @@ export class MovieModel {
     return movies
   }
 
-  static async getById ({ id }) {
+  static async getById({ id }) {
     const movie = movies.find((movie) => movie.id === id)
 
     return movie
   }
 
-  static async createMovie ({ input }) {
+  static async createMovie({ input }) {
     const newMovie = { ...input, id: crypto.randomUUID() }
     const result = validateMovie(newMovie)
     if (result.error) return false
@@ -50,7 +50,7 @@ export class MovieModel {
     return movie
   }
 
-  static async updateMovie ({ id, input }) {
+  static async updateMovie({ id, input }) {
     const movieIndex = movies.findIndex((movie) => movie.id === id)
     if (movieIndex < 0) return false
 
@@ -59,7 +59,7 @@ export class MovieModel {
     return movies[movieIndex]
   }
 
-  static async deleteMovie ({ id }) {
+  static async deleteMovie({ id }) {
     const movieIndex = movies.findIndex((movie) => movie.id === id)
 
     if (movieIndex < 0) return false

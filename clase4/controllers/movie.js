@@ -1,5 +1,5 @@
 import { validateMovie, validatePartialMovie } from '../lib/validators/movies.js'
-import { MovieModel } from '../models/movie.js'
+import { MovieModel } from '../models/file-system/movie.js'
 
 // Las validaciones del CONTROLADOR
 // - Verificar el input del usuario
