@@ -1,0 +1,40 @@
+GET http://localhost:1234/
+
+### Para obtener las peliculas
+GET http://localhost:1234/movies
+
+### Para obtener una pelicula en especifico
+GET http://localhost:1234/movies/df747343-b41d-11ee-a3f6-d03957c27b84
+
+### Para obtener peliculas basadas en un genero
+GET http://localhost:1234/movies?genre=biography
+
+### Crear una pelicula
+POST http://localhost:1234/movies
+Content-Type: application/json
+
+{
+  "sql": "SELECT * FROM users",
+  "title": "pelicula drama y biography",
+  "year": 1989,
+  "director": "nuevo autor xd",
+  "duration": 110,
+  "poster": "https://m.media-amazon.com/images/I/81dwTCF6+XL.jpg",
+  "genre": ["Biography", "Drama"],
+  "rate": 7.9
+}
+
+### Actualizar una pelicula
+PATCH http://localhost:1234/movies/df747343-b41d-11ee-a3f6-d03957c27b84
+Content-Type: application/json
+
+{
+  "year": 1999,
+  "title": "nuevamente actualizadaxd",
+  "rate": 6.0,
+  "duration": 120,
+  "director": "El pato donald"
+}
+
+### Borrar una pelicula
+DELETE http://localhost:1234/movies/75da7ea6-b73b-11ee-85d6-d03957c27b84

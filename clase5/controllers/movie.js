@@ -1,5 +1,6 @@
 import { validateMovie, validatePartialMovie } from '../lib/validators/movies.js'
-import { MovieModel } from '../models/file-system/movie.js'
+// import { MovieModel } from '../models/file-system/movie.js'
+import { MovieModel } from '../models/mysql/movie.js'
 
 // Las validaciones del CONTROLADOR
 // - Verificar el input del usuario
@@ -16,13 +17,6 @@ export class MovieController {
     } catch (error) {
       res.status(500).json({ message: error.message })
     }
-  }
-
-  static async getAllMovieGenres (req, res) {
-    const genres = await MovieModel.getAllMovieGenres()
-    console.log(genres)
-
-    res.json(genres)
   }
 
   static async createMovie (req, res) {
@@ -60,7 +54,7 @@ export class MovieController {
     const updatedMovie = await MovieModel.updateMovie({ id, input })
 
     if (!updatedMovie) {
-      return res.status(404).json({ message: 'Movie not found' })
+      return res.status(404).json({ message: 'Could not update the movie' })
     }
 
     res.json(updatedMovie)

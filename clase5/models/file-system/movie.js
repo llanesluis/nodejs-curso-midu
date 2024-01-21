@@ -31,19 +31,6 @@ export class MovieModel {
     return movies
   }
 
-  static async getAllMovieGenres () {
-    const genres = new Set()
-    movies.forEach((movie) => {
-      const movieGenres = [...movie.genre]
-
-      movieGenres.forEach(genre => {
-        genres.add(genre)
-      })
-    })
-
-    return [...genres]
-  }
-
   static async getById ({ id }) {
     const movie = movies.find((movie) => movie.id === id)
 
