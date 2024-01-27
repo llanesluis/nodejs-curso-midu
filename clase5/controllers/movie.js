@@ -1,17 +1,27 @@
 import { validateMovie, validatePartialMovie } from '../lib/validators/movies.js'
-// import { MovieModel } from '../models/file-system/movie.js'
-import { MovieModel } from '../models/mysql/movie.js'
 
 // Las validaciones del CONTROLADOR
 // - Verificar el input del usuario
 // - Correos, numeros, cadenas en formato y rango correcto
 // - Hacer maps, filtros, etc
 
+// Al final >> convertimos los metodos de esta clase
+// en metodos normales que requieren de una instancia
+// al momento de instanciarla, pasaremos el modelo que
+// queramos usar por medio del constructor
+
 export class MovieController {
-  static async getAllMovies (req, res) {
+  // Al final: Con motivos de hacer esto mas escalable, se pasa
+  // al constructor el modelo que se quiere usar (inyeccion de dependencias)
+  // los metodos static ahora requieren de una instancia de clase (1)
+  constructor ({ movieModel }) {
+    this.movieModel = movieModel
+  }
+
+  getAllMovies = async (req, res) => {
     try {
       const { genre } = req.query
-      const movies = await MovieModel.getAllMovies({ genre })
+      const movies = await this.movieModel.getAllMovies({ genre })
 
       res.json(movies)
     } catch (error) {
@@ -19,7 +29,7 @@ export class MovieController {
     }
   }
 
-  static async createMovie (req, res) {
+  createMovie = async (req, res) => {
     const body = req.body
 
     const result = validateMovie(body)
@@ -27,22 +37,22 @@ export class MovieController {
       return res.status(422).json(result.error)
     }
 
-    const newMovie = await MovieModel.createMovie({ input: body })
+    const newMovie = await this.movieModel.createMovie({ input: body })
     if (!newMovie) res.status(400).json({ message: 'Could not create the movie' })
 
     res.status(201).json(newMovie)
   }
 
-  static async getById (req, res) {
+  getById = async (req, res) => {
     const { id } = req.params
-    const movie = await MovieModel.getById({ id })
+    const movie = await this.movieModel.getById({ id })
 
     if (!movie) res.status(404).json({ message: 'Movie not found' })
 
     return res.json(movie)
   }
 
-  static async updateMovie (req, res) {
+  updateMovie = async (req, res) => {
     const body = req.body
     const result = validatePartialMovie(body)
 
@@ -51,7 +61,7 @@ export class MovieController {
     const { id } = req.params
     const input = result.data
 
-    const updatedMovie = await MovieModel.updateMovie({ id, input })
+    const updatedMovie = await this.movieModel.updateMovie({ id, input })
 
     if (!updatedMovie) {
       return res.status(404).json({ message: 'Could not update the movie' })
@@ -60,10 +70,10 @@ export class MovieController {
     res.json(updatedMovie)
   }
 
-  static async deleteMovie (req, res) {
+  deleteMovie = async (req, res) => {
     const { id } = req.params
 
-    const deletedMovie = await MovieModel.deleteMovie({ id })
+    const deletedMovie = await this.movieModel.deleteMovie({ id })
 
     if (!deletedMovie) {
       return res.status(404).json({ message: 'Movie does not exist' })

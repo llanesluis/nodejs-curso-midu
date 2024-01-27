@@ -15,25 +15,25 @@ Content-Type: application/json
 
 {
   "sql": "SELECT * FROM users",
-  "title": "pelicula drama y biography",
-  "year": 1989,
-  "director": "nuevo autor xd",
-  "duration": 110,
-  "poster": "https://m.media-amazon.com/images/I/81dwTCF6+XL.jpg",
-  "genre": ["Biography", "Drama"],
-  "rate": 7.9
+  "title": "Gordo estupido",
+  "year": 2000,
+  "director": "jaja ekis de jaja",
+  "duration": 140,
+  "poster": "https://www.informador.mx/export/sites/elinformador/img/2023/04/04/fs3w6biayaa0teb.jpg_1064668086.jpg",
+  "genre": ["Action", "Fantasy"],
+  "rate": 1
 }
 
 ### Actualizar una pelicula
-PATCH http://localhost:1234/movies/df747343-b41d-11ee-a3f6-d03957c27b84
+PATCH http://localhost:1234/movies/6bf75840-b8c2-11ee-ba00-bceca00df178
 Content-Type: application/json
 
 {
-  "year": 1999,
-  "title": "nuevamente actualizadaxd",
-  "rate": 6.0,
-  "duration": 120,
-  "director": "El pato donald"
+  "year": 2010,
+  "title": "Gordo fuertemenete estupido y enfermo",
+  "rate": 2.0,
+  "duration": 10,
+  "director": "Tu madre la peppa pig"
 }
 
 ### Borrar una pelicula

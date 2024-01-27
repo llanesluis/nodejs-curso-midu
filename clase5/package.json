@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon 01.app.js"
+    "dev": "nodemon 01.app.js",
+    "dev:local": "node --watch 02.app-local-model.js",
+    "dev:mysql": "node --watch 03.app-mysql-model.js"
   },
   "keywords": [],
   "author": "",
