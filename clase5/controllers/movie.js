@@ -14,7 +14,7 @@ export class MovieController {
   // Al final: Con motivos de hacer esto mas escalable, se pasa
   // al constructor el modelo que se quiere usar (inyeccion de dependencias)
   // los metodos static ahora requieren de una instancia de clase (1)
-  constructor ({ movieModel }) {
+  constructor({ movieModel }) {
     this.movieModel = movieModel
   }
 

@@ -7,7 +7,7 @@ import errorHanlderMiddleware from './middleware/errorHandler.js'
 // de prueba, se crea una funcion que recibe el modelo y crea la app (4)
 // al pasar modelos diferentes en cada instancia de la funcion, será
 //  levantado un servidor diferente con el modelo que se quiera usar
-export function createApp ({ movieModel }) {
+export function createApp({ movieModel }) {
   if (!movieModel) return
 
   const app = express()
@@ -18,9 +18,9 @@ export function createApp ({ movieModel }) {
 
   // Desactivar header x-powered-by > da info de la tecnologia usada
   app.disable('x-powered-by')
-
+ 
+  
   const PORT = process.env.PORT ?? 1234
-
   // General middleware
   app.use(express.json())
   app.use(corsMiddleware)
