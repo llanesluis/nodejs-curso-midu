@@ -33,7 +33,7 @@ io.on('connection', async (socket) => {
   });
 
   //El servidor escucha el evento "chat message" enviado desde el cliente
-  socket.on('chat message', async (msg: string, _serverOffset, username, _time) => {
+  socket.on('chat message', async ({ msg, username }) => {
     console.log(`Message recieved: ${msg} -> ${username}`);
 
     //Guardar el mensaje en la base de datos
@@ -68,7 +68,10 @@ io.on('connection', async (socket) => {
     }
 
     const time = lastMessage.createdAt ?? '2024-12-12 00:00:00';
-    io.emit('chat message', msg, serverOffset, username, time);
+
+    const data = { msg, serverOffset, username, time };
+
+    io.emit('chat message', data);
   });
 
   //En caso de que el cliente no se pueda recuperar
@@ -89,7 +92,9 @@ io.on('connection', async (socket) => {
         const username = row.username;
         const time = row.createdAt;
 
-        socket.emit('chat message', msg, serverOffset, username, time);
+        const data = { msg, serverOffset, username, time };
+
+        socket.emit('chat message', data);
       });
     } catch (error) {
       console.error(error);
