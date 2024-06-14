@@ -3,7 +3,9 @@ import logger from 'morgan';
 import { Server } from 'socket.io';
 import { createServer } from 'node:http';
 
+import dotenv from 'dotenv';
 import { db } from '../database';
+dotenv.config();
 
 const PORT = process.env.PORT ?? 3000;
 
