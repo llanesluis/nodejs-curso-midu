@@ -2,7 +2,8 @@ import express from 'express';
 import morgan from 'morgan';
 import { PORT } from './config';
 import { errorMiddleware, notFoundMiddleware } from './middleware/error-handler';
-import authRouter from './routes/auth';
+import authRouter from './routes/auth-router';
+import usersRouter from './routes/user-router';
 
 export default function createApp() {
   const app = express();
@@ -12,6 +13,7 @@ export default function createApp() {
 
   // todo: routes
   app.use('/auth', authRouter);
+  app.use('/users', usersRouter);
 
   app.use(notFoundMiddleware);
   app.use(errorMiddleware);
