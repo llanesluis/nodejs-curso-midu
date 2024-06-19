@@ -6,4 +6,5 @@ export const {
   HASH_SALT_ROUNDS = 10,
   DB_URL = process.env.DB_URL,
   DB_TOKEN = process.env.DB_TOKEN,
+  JWT_SECRET = process.env.JWT_SECRET,
 } = process.env;
