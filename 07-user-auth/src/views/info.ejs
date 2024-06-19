@@ -1,0 +1,267 @@
+<html
+  style="color-scheme: light dark"
+  lang="en">
+  <head>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        gap: 16px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      header {
+        top: 0;
+        position: absolute;
+        width: 100%;
+        height: 4rem;
+        background-color: #333;
+        margin-top: auto;
+        text-align: center;
+
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+
+        background-color: #171717;
+        padding: 40px;
+        border-radius: 16px;
+      }
+
+      button {
+        background-color: #333;
+        color: #fff;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+
+        &:hover {
+          background-color: #666;
+        }
+      }
+
+      form {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-right: 20px;
+
+        span {
+          position: absolute;
+          bottom: -25px;
+        }
+
+        input {
+          padding: 4px;
+        }
+      }
+
+      .user-info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 20px;
+        border: 1px solid #ccc3;
+        border-radius: 5px;
+
+        h2 {
+          margin-bottom: 16px;
+        }
+
+        strong {
+          color: #7788eb;
+        }
+
+        p {
+          color: #ddd;
+        }
+      }
+
+      .route-info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 350px;
+
+        button {
+          width: fit-content;
+        }
+      }
+
+      footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 2rem;
+        background-color: #333;
+        align-content: center;
+        margin-top: auto;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header><a href="/auth">Auth</a> <a href="/protected">Protected route</a></header>
+    <div class="route-info">
+      <h1>AUTH ROUTE</h1>
+      <p>This is <strong>NOT</strong> a protected route</p>
+    </div>
+    <main>
+      <% if (typeof username === 'undefined') { %>
+      <form id="login-form">
+        <h2>Login</h2>
+        <input
+          type="text"
+          id="login-username"
+          placeholder="username" />
+        <input
+          type="password"
+          id="login-password"
+          placeholder="password" />
+        <button type="submit">Login</button>
+        <span id="login-span"></span>
+      </form>
+
+      <form id="signup-form">
+        <h2>Signup</h2>
+        <input
+          type="text"
+          id="signup-username"
+          placeholder="username" />
+        <input
+          type="email"
+          id="signup-email"
+          placeholder="email@email.com" />
+        <input
+          type="text"
+          id="signup-role"
+          placeholder="user / admin" />
+        <input
+          type="password"
+          id="signup-password"
+          placeholder="password" />
+        <button type="submit">Signup</button>
+        <span id="signup-span"></span>
+      </form>
+      <% } %> <% if (typeof username !== 'undefined') { %>
+
+      <section class="user-info">
+        <h2>User Info</h2>
+        <p><strong>ID:</strong> <%= id %></p>
+        <p><strong>Username:</strong> <%= username %></p>
+        <p><strong>Email:</strong> <%= email %></p>
+        <p><strong>Role:</strong> <%= role %></p>
+        <button id="logout-button">Logout</button>
+      </section>
+      <% } %>
+    </main>
+    <footer class=""><span>Template using EJS</span></footer>
+
+    <script>
+      const loginForm = document.getElementById('login-form');
+      const loginSpan = document.getElementById('login-span');
+
+      const signupForm = document.getElementById('signup-form');
+      const signupSpan = document.getElementById('signup-span');
+
+      const logoutButton = document.getElementById('logout-button');
+
+      loginForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById('login-username').value;
+        const password = document.getElementById('login-password').value;
+
+        console.log({ username, password });
+
+        fetch('/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+        }).then((res) => {
+          if (res.ok) {
+            loginSpan.innerText = 'Success';
+            loginSpan.style.color = 'green';
+            setTimeout(() => {
+              window.location.href = '/protected';
+            }, 1000);
+          } else {
+            res.json().then((data) => {
+              loginSpan.innerText = data.error;
+              loginSpan.style.color = 'red';
+              setTimeout(() => {
+                loginSpan.innerText = '';
+              }, 2000);
+            });
+          }
+        });
+      });
+
+      signupForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById('signup-username').value;
+        const email = document.getElementById('signup-email').value;
+        const role = document.getElementById('signup-role').value;
+        const password = document.getElementById('signup-password').value;
+
+        fetch('/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, email, role, password }),
+        }).then((res) => {
+          if (res.ok) {
+            signupSpan.innerText = 'Success';
+            signupSpan.style.color = 'green';
+            setTimeout(() => {
+              window.location.href = '/auth';
+            }, 1000);
+          } else {
+            res.json().then((data) => {
+              signupSpan.innerText = data.error;
+              signupSpan.style.color = 'red';
+              setTimeout(() => {
+                signupSpan.innerText = '';
+              }, 2000);
+            });
+          }
+        });
+      });
+
+      logoutButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        fetch('/auth/logout', {
+          method: 'POST',
+        }).then((res) => {
+          if (res.ok) {
+            window.location.href = '/auth';
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
