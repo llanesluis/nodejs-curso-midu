@@ -1,0 +1,9 @@
+[
+  {
+    "_id": "4bcf7315-6029-4b1f-af8a-2362a657a402",
+    "username": "prueba",
+    "email": "prueba@prueba.com",
+    "password": "$2b$10$B4q1RibqGKSrktdtBZygjuKdejWNKBuFlzLHoPM3VJn8j27aEJvf.",
+    "role": "admin"
+  }
+]
