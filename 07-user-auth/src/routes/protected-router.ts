@@ -1,19 +1,13 @@
 import { Router } from 'express';
-import { JWT_SECRET } from '../config';
-import jwt from 'jsonwebtoken';
+import { getAuthenticatedUser } from '../utils/jwt';
 
 const protectedRouter = Router();
 
 protectedRouter.get('/', (req, res, next) => {
   try {
-    const token = req.cookies.token;
-    let loggedUser = {};
+    const authenticatedUser = getAuthenticatedUser(req);
 
-    if (token) {
-      loggedUser = jwt.verify(token, JWT_SECRET!);
-    }
-
-    res.render('../src/views/protected', loggedUser!);
+    res.render('../src/views/protected', authenticatedUser);
   } catch (error) {
     next(error);
   }

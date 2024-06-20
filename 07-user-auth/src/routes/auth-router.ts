@@ -2,21 +2,15 @@ import { Router } from 'express';
 import { UserSchema } from '../validations/users';
 // @ts-ignore
 import { UserRepository } from '../db/db-local/user-repository.js';
-import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../config';
+import { getAccessToken, getAuthenticatedUser } from '../utils/jwt';
 
 const authRouter = Router();
 
 authRouter.get('/', (req, res, next) => {
   try {
-    const token = req.cookies.token;
-    let loggedUser = {};
+    const authenticatedUser = getAuthenticatedUser(req);
 
-    if (token) {
-      loggedUser = jwt.verify(token, JWT_SECRET!);
-    }
-
-    res.render('../src/views/info', loggedUser);
+    res.render('../src/views/info', authenticatedUser);
   } catch (error) {
     next(error);
   }
@@ -28,9 +22,16 @@ authRouter.post('/login', async (req, res, next) => {
   try {
     const user = await UserRepository.login({ username, password });
 
-    const token = jwt.sign(user, JWT_SECRET!, { expiresIn: '1h' });
+    const accessToken = getAccessToken(user);
 
-    res.cookie('token', token).json(user);
+    res
+      .cookie('access_token', accessToken, {
+        httpOnly: true, // only accessible by the web server, not JavaScript
+        secure: process.env.NODE_ENV === 'production', // only sent over HTTPS
+        sameSite: 'strict',
+        maxAge: 1000 * 60 * 60, // 1 hour
+      })
+      .json(user);
   } catch (error) {
     next(error);
   }
@@ -62,9 +63,7 @@ authRouter.post('/signup', async (req, res, next) => {
 
 authRouter.post('/logout', (req, res, next) => {
   try {
-    res.clearCookie('token');
-
-    res.send('logout endpoint');
+    res.clearCookie('access_token').json({ message: 'Logged out' });
   } catch (error) {
     next(error);
   }
