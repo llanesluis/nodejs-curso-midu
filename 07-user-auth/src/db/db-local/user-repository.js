@@ -42,4 +42,9 @@ export class UserRepository {
 
     return { id: publicUser._id, username: publicUser.username, email: publicUser.email, role: publicUser.role }
   }
+
+  static getAllUsers () {
+    const users = User.find()
+    return users.map(({ password, ...user }) => user)
+  }
 }
