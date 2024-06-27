@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../config';
 import { User } from '../validations/users';
+import env from '../config';
 
 type RequestWithSession = Request & { session: { user: User | {} } };
 
@@ -14,7 +14,7 @@ export function getAuthenticatedUser(
   req.session = { user: {} };
 
   if (accessToken) {
-    const authenticatedUser = jwt.verify(accessToken, JWT_SECRET!);
+    const authenticatedUser = jwt.verify(accessToken, env.JWT_SECRET);
     req.session = { user: authenticatedUser };
   }
 

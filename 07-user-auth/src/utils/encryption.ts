@@ -1,5 +1,5 @@
-import { HASH_SALT_ROUNDS } from '../config';
 import bcrypt from 'bcrypt';
+import env from '../config';
 
 interface EncryptPassword {
   password: string;
@@ -7,7 +7,7 @@ interface EncryptPassword {
 }
 export async function encryptPassword({
   password,
-  salt_rounds = Number(HASH_SALT_ROUNDS),
+  salt_rounds = Number(env.HASH_SALT_ROUNDS),
 }: EncryptPassword) {
   const hashedPassword = await bcrypt.hash(password, salt_rounds);
   return hashedPassword;
