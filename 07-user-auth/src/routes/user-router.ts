@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { createUser, getAllUsers } from '../db/libsql/users';
 import { UserSchema } from '../validations/users';
 // @ts-ignore
 import { UserRepository } from '../db/db-local/user-repository.js';
@@ -8,9 +7,18 @@ const usersRouter = Router();
 
 usersRouter.get('/', async (req, res, next) => {
   try {
-    // const result = await getAllUsers();
-
     const result = UserRepository.getAllUsers();
+    console.log(result);
+    res.send(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.get('/:username', (req, res, next) => {
+  const username = req.params.username;
+  try {
+    const result = UserRepository.getUserByUsername(username);
     console.log(result);
     res.send(result);
   } catch (error) {

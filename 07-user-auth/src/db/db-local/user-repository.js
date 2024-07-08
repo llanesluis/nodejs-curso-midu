@@ -33,18 +33,31 @@ export class UserRepository {
       throw new Error('User not found')
     }
 
-    const isValidPassword = await comparePassword({ password, hashedPassword: user.password })
+    const isValidPassword = await comparePassword({
+      password,
+      hashedPassword: user.password
+    })
     if (!isValidPassword) {
       throw new Error('Invalid password')
     }
 
     const { password: _, ...publicUser } = user
 
-    return { id: publicUser._id, username: publicUser.username, email: publicUser.email, role: publicUser.role }
+    return {
+      id: publicUser._id,
+      username: publicUser.username,
+      email: publicUser.email,
+      role: publicUser.role
+    }
   }
 
   static getAllUsers () {
     const users = User.find()
+    return users.map(({ password, ...user }) => user)
+  }
+
+  static getUserByUsername (username) {
+    const users = User.find(user => user.username === username)
     return users.map(({ password, ...user }) => user)
   }
 }
