@@ -6,6 +6,7 @@ import authRouter from './routes/auth-router';
 import usersRouter from './routes/user-router';
 import protectedRouter from './routes/protected-router';
 import env from './config';
+import cors from 'cors';
 
 export default function createApp() {
   const app = express();
@@ -15,6 +16,7 @@ export default function createApp() {
   app.use(morgan('dev'));
   app.use(express.json());
   app.use(cookieParser());
+  app.use(cors());
 
   app.use('/auth', authRouter);
   app.use('/users', usersRouter);
